@@ -55,13 +55,21 @@ a { color: inherit; text-decoration: none; }
   gap: 12px;
 }
 
-.brand-drop {
-  width: 18px;
-  height: 24px;
-  border-radius: 60% 60% 70% 70% / 55% 55% 80% 80%;
-  background: linear-gradient(180deg, #8fe9ff, #1687ff);
-  transform: rotate(14deg);
-  box-shadow: 0 0 30px rgba(62, 178, 255, 0.55);
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 28px;
+  flex: 0 0 auto;
+}
+
+.brand-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(49, 58, 148, 0.18));
 }
 
 .brand-stack { display: flex; flex-direction: column; gap: 2px; }
