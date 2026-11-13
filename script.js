@@ -22,3 +22,30 @@ switchButtons.forEach((button) => {
 });
 
 setLanguage("en");
+
+// Mobile menu: the three-line button opens and closes the navigation panel
+const header = document.querySelector(".site-header");
+const navToggle = document.querySelector(".nav-toggle");
+
+function setMenu(open) {
+  header.classList.toggle("is-open", open);
+  navToggle.setAttribute("aria-expanded", String(open));
+  navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+}
+
+if (header && navToggle) {
+  navToggle.addEventListener("click", () => setMenu(!header.classList.contains("is-open")));
+
+  // Close after choosing a section or tapping the phone number
+  header.querySelectorAll(".site-nav a, .call-chip").forEach((link) => {
+    link.addEventListener("click", () => setMenu(false));
+  });
+
+  // Close when tapping outside the header or pressing Escape
+  document.addEventListener("click", (event) => {
+    if (!header.contains(event.target)) setMenu(false);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setMenu(false);
+  });
+}
