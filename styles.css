@@ -149,16 +149,11 @@ main section[id] { scroll-margin-top: 84px; }
   color: var(--text);
 }
 
-.call-chip,
+.contact-chip,
 .primary-btn,
 .secondary-btn { transition: transform 180ms ease; }
 
-.call-group {
-  display: flex;
-  gap: 8px;
-}
-
-.call-chip {
+.contact-chip {
   padding: 12px 16px;
   text-align: center;
   white-space: nowrap;
@@ -168,7 +163,7 @@ main section[id] { scroll-margin-top: 84px; }
   font-weight: 700;
 }
 
-.call-chip:hover,
+.contact-chip:hover,
 .primary-btn:hover,
 .secondary-btn:hover { transform: translateY(-2px); }
 
@@ -575,14 +570,6 @@ main section[id] { scroll-margin-top: 84px; }
   color: var(--muted);
 }
 
-/* Narrow laptops: tighten the header so two phone numbers still fit on one row */
-@media (max-width: 1240px) {
-  .site-header { gap: 14px; }
-  .site-nav { gap: 12px; }
-  .call-chip { padding: 12px 12px; }
-  .lang-btn { padding: 8px 10px; }
-}
-
 @media (max-width: 1120px) {
   /* Compact bar: logo + three-line menu button. Links, language and phone open in a panel below. */
   .site-header {
@@ -631,7 +618,6 @@ main section[id] { scroll-margin-top: 84px; }
   }
 
   .lang-switch { align-self: flex-start; }
-  .call-group .call-chip { flex: 1; }
 
   .hero,
   .about-grid,

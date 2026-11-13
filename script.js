@@ -36,8 +36,8 @@ function setMenu(open) {
 if (header && navToggle) {
   navToggle.addEventListener("click", () => setMenu(!header.classList.contains("is-open")));
 
-  // Close after choosing a section or tapping the phone number
-  header.querySelectorAll(".site-nav a, .call-chip").forEach((link) => {
+  // Close after choosing a section or tapping Contact Us
+  header.querySelectorAll(".site-nav a, .contact-chip").forEach((link) => {
     link.addEventListener("click", () => setMenu(false));
   });
 
