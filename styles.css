@@ -203,6 +203,9 @@ main section[id] { scroll-margin-top: 84px; }
   font-weight: 700;
 }
 
+/* Second Contact Us link that sits in the top bar on phones and tablets (switched on further down) */
+.contact-chip-bar { display: none; }
+
 .contact-chip:hover,
 .primary-btn:hover,
 .secondary-btn:hover { transform: translateY(-2px); }
@@ -274,9 +277,8 @@ main section[id] { scroll-margin-top: 84px; }
   line-height: 1.8;
 }
 
-/* WhatsApp / call buttons: hidden on desktop, switched on for phones and tablets further down */
 .hero-actions {
-  display: none;
+  display: flex;
   flex-wrap: wrap;
   gap: 14px;
   margin-top: 28px;
@@ -594,6 +596,12 @@ main section[id] { scroll-margin-top: 84px; }
 .gallery-card:hover img { transform: scale(1.04); }
 .contact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
+/* Contact is the last section: a fine line (same as the one above the footer) sets it apart from the page */
+.contact {
+  margin-top: 42px;
+  border-top: 1px solid var(--line);
+}
+
 .contact-card {
   padding: 26px;
   border-radius: 28px;
@@ -686,14 +694,17 @@ main section[id] { scroll-margin-top: 84px; }
 }
 
 @media (max-width: 1120px) {
-  /* Compact bar: logo + three-line menu button. Links, language and phone open in a panel below. */
+  /* Compact bar: logo + Contact Us + three-line menu button. Links, language and social open in a panel below. */
   .site-header {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
     gap: 12px;
     padding: 10px 16px;
   }
 
   .nav-toggle { display: inline-flex; }
+
+  .contact-chip-bar { display: inline-block; padding: 11px 16px; }
+  .header-actions .contact-chip { display: none; }
 
   .site-menu {
     display: none;
@@ -725,7 +736,7 @@ main section[id] { scroll-margin-top: 84px; }
     font-size: 1.02rem;
   }
 
-  /* Menu panel: language switch left, social badges right, Contact Us full width below */
+  /* Menu panel: language switch left, social badges right */
   .header-actions {
     flex-wrap: wrap;
     gap: 14px;
@@ -733,7 +744,6 @@ main section[id] { scroll-margin-top: 84px; }
   }
 
   .header-social { margin-left: auto; }
-  .contact-chip { flex: 1 0 100%; }
 
   .hero,
   .about-grid,
@@ -743,10 +753,20 @@ main section[id] { scroll-margin-top: 84px; }
   .contact-grid,
   .comparison-grid { grid-template-columns: 1fr; }
 
-  .hero { padding-top: 18px; gap: 22px; }
+  .hero { padding-top: 18px; gap: 18px; }
 
-  /* Single column: bottle photo first, then headline, buttons and facts */
+  /* Single column, in this order: small top line, bottle photo, headline, intro, facts.
+     The two wrappers are dissolved so the top line can sit above the photo. */
+  .hero-copy,
+  .hero-text { display: contents; }
+
+  .hero .eyebrow { order: -2; margin: 0; }
   .hero-visual { order: -1; }
+  .hero-lead { margin-top: 0; }
+
+  /* Keep the headline and intro above the photo card's soft shadow */
+  .hero h1,
+  .hero-lead { position: relative; z-index: 1; }
   .hero-card-top { padding: 10px; }
   .hero-card-top::before { padding-top: 56%; }
 
@@ -756,8 +776,6 @@ main section[id] { scroll-margin-top: 84px; }
     height: calc(100% - 20px);
     object-position: center 30%;
   }
-
-  .hero-actions { display: flex; }
 
   .hero-points { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
@@ -781,9 +799,11 @@ main section[id] { scroll-margin-top: 84px; }
   .brand strong { font-size: 1.1rem; }
   .brand span:last-child { font-size: 0.76rem; }
 
-  /* Phone hero: photo on top, short headline, two buttons, then a compact 2 x 2 fact grid */
-  .hero { gap: 18px; padding: 14px 0 16px; }
-  .hero-copy { gap: 20px; }
+  .site-header { gap: 8px; }
+  .contact-chip-bar { padding: 9px 14px; font-size: 0.9rem; }
+
+  /* Phone hero: top line, photo, short headline, then a compact 2 x 2 fact grid */
+  .hero { gap: 14px; padding: 14px 0 16px; }
 
   .hero-card { border-radius: 24px; }
   .hero-card-top { padding: 8px; }
@@ -798,7 +818,6 @@ main section[id] { scroll-margin-top: 84px; }
   }
 
   .hero .eyebrow {
-    margin-bottom: 10px;
     font-size: 0.72rem;
     letter-spacing: 0.12em;
   }
@@ -808,16 +827,7 @@ main section[id] { scroll-margin-top: 84px; }
   /* The long intro paragraph repeats the About section, so phones skip it */
   .hero-lead { display: none; }
 
-  .hero-actions { gap: 10px; margin-top: 18px; }
-
-  .hero-actions a {
-    flex: 1 1 0;
-    min-height: 48px;
-    padding: 0 14px;
-    white-space: nowrap;
-  }
-
-  .hero-points { gap: 10px; }
+  .hero-points { gap: 10px; margin-top: 4px; }
   .hero-points article { padding: 12px 14px; border-radius: 16px; }
   .hero-points span { margin-bottom: 4px; font-size: 0.78rem; }
   .hero-points strong { font-size: 0.92rem; line-height: 1.4; }
