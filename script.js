@@ -4,6 +4,7 @@ const translatable = document.querySelectorAll("[data-en][data-mr]");
 
 function setLanguage(lang) {
   root.dataset.lang = lang;
+  try { localStorage.setItem("nimbus-lang", lang); } catch (error) { /* private mode: just don't remember */ }
   root.lang = lang === "mr" ? "mr" : "en";
 
   translatable.forEach((node) => {
@@ -21,7 +22,10 @@ switchButtons.forEach((button) => {
   button.addEventListener("click", () => setLanguage(button.dataset.switchLang));
 });
 
-setLanguage("en");
+// Start in the language chosen on the previous page, English otherwise
+let savedLang = "en";
+try { savedLang = localStorage.getItem("nimbus-lang") || "en"; } catch (error) { /* storage unavailable */ }
+setLanguage(savedLang === "mr" ? "mr" : "en");
 
 // Mobile menu: the three-line button opens and closes the navigation panel
 const header = document.querySelector(".site-header");
