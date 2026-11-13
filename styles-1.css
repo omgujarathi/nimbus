@@ -148,6 +148,18 @@ main section[id] { scroll-margin-top: 84px; }
   transition: transform 180ms ease, border-color 180ms ease;
 }
 
+/* When the official icon file is present it replaces the lettered circle; if the file is missing the letters show instead */
+.social-badge img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.social-badge:has(img) {
+  border-color: transparent;
+  background: none;
+}
+
 .social-badge:hover,
 .social-badge:focus-visible {
   transform: translateY(-2px);
@@ -228,11 +240,29 @@ main section[id] { scroll-margin-top: 84px; }
   line-height: 1.02;
 }
 
+/* Headline as a three-point list: one statement per line, each with a water-drop marker */
 .hero h1 {
-  max-width: 9.5em;
-  font-size: clamp(2.6rem, 4.6vw, 4rem);
-  line-height: 1.08;
+  display: grid;
+  gap: 14px;
+  font-size: clamp(1.7rem, 3.3vw, 2.6rem);
+  line-height: 1.2;
+}
+
+.hero-claims span {
+  position: relative;
+  display: block;
+  padding-left: 1.15em;
   text-wrap: balance;
+}
+
+.hero-claims span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.14em;
+  width: 0.62em;
+  height: 0.9em;
+  background: url("assets/images/nimbus-logo.svg") center / contain no-repeat;
 }
 
 .hero-lead {
@@ -270,15 +300,6 @@ main section[id] { scroll-margin-top: 84px; }
 .secondary-btn {
   border: 1px solid rgba(123, 208, 255, 0.28);
   background: rgba(255, 255, 255, 0.04);
-}
-
-.hero-promise {
-  margin: 22px 0 0;
-  padding-left: 16px;
-  border-left: 3px solid var(--gold);
-  font-size: 1.3rem;
-  font-weight: 700;
-  line-height: 1.3;
 }
 
 .hero-points {
@@ -701,7 +722,6 @@ main section[id] { scroll-margin-top: 84px; }
 
   .hero { padding-top: 18px; }
 
-  .hero h1 { max-width: none; }
   .hero-points { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   .product-highlight img,
@@ -724,7 +744,7 @@ main section[id] { scroll-margin-top: 84px; }
   .brand strong { font-size: 1.1rem; }
   .brand span:last-child { font-size: 0.76rem; }
 
-  .hero h1 { font-size: clamp(2rem, 9.5vw, 2.9rem); }
+  .hero h1 { font-size: clamp(1.45rem, 6.4vw, 1.9rem); }
   .section-head h2,
   .section-head h1 { font-size: clamp(1.8rem, 9vw, 2.6rem); }
   .hero-points { grid-template-columns: 1fr; }
