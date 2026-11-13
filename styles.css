@@ -519,6 +519,14 @@ main section[id] { scroll-margin-top: 84px; }
 }
 
 .comparison-card.muted { background: rgba(255, 255, 255, 0.03); }
+
+/* Dots + "Swipe" arrow under the Why Nimbus, Quality and Manufacturing cards: only used when the cards scroll sideways (phones and tablets) */
+.swipe-hint { display: none; }
+
+@keyframes nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
 .quality-grid { grid-template-columns: 0.95fr 1.05fr; }
 
 .quality-copy {
@@ -762,10 +770,93 @@ main section[id] { scroll-margin-top: 84px; }
   .hero,
   .about-grid,
   .product-layout,
-  .quality-grid,
   .manufacturing-grid,
-  .contact-grid,
-  .comparison-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+
+  /* Why Nimbus cards, the four Quality cards and the three Manufacturing steps:
+     one row that scrolls sideways and stops on each card.
+     The next card peeks in from the right edge, and the dots + arrow underneath show there is more. */
+  .comparison-grid,
+  .quality-grid,
+  .process-steps {
+    display: flex;
+    gap: 14px;
+    margin-inline: -16px;
+    padding: 4px 16px 22px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .comparison-grid::-webkit-scrollbar,
+  .quality-grid::-webkit-scrollbar,
+  .process-steps::-webkit-scrollbar { display: none; }
+
+  /* The wrapper around the three smaller Quality cards is dissolved so all four sit in the same row */
+  .quality-points { display: contents; }
+
+  .comparison-card,
+  .quality-copy,
+  .quality-points article,
+  .process-steps article {
+    flex: 0 0 min(80%, 360px);
+    scroll-snap-align: start;
+  }
+
+  .comparison-card,
+  .quality-points article { box-shadow: 0 12px 24px rgba(2, 10, 18, 0.3); }
+
+  /* First Quality card: same padding as the others, and the four tag boxes are left out here */
+  .quality-copy { padding: 22px; }
+  .quality-tags { display: none; }
+
+  .swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: -2px;
+  }
+
+  /* The Manufacturing cue sits inside the photo + steps grid, so pull it up past that grid's row gap */
+  .manufacturing-grid .swipe-hint { margin-top: -26px; }
+
+  /* Set by script.js when every card already fits on screen */
+  .swipe-hint.is-static { display: none; }
+
+  .swipe-dots { display: inline-flex; align-items: center; gap: 7px; }
+
+  .swipe-dots i {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(149, 212, 255, 0.28);
+    transition: width 200ms ease, background 200ms ease;
+  }
+
+  .swipe-dots i.is-active { width: 22px; background: var(--bright); }
+
+  .swipe-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--bright);
+    font-size: 0.86rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    transition: opacity 200ms ease;
+  }
+
+  .swipe-arrow { font-size: 1.1rem; animation: nudge 1.4s ease-in-out infinite; }
+
+  /* Last card reached: nothing more to the right, so the cue fades out and only the dots stay */
+  .swipe-hint.is-end .swipe-label { opacity: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .swipe-arrow { animation: none; }
+  }
 
   .hero { padding-top: 18px; gap: 18px; }
 
@@ -799,6 +890,15 @@ main section[id] { scroll-margin-top: 84px; }
 
 @media (max-width: 760px) {
   .page-shell { width: min(100% - 20px, 1200px); }
+
+  /* Sideways card rows reach both screen edges (the page margin is 10px on phones) */
+  .comparison-grid,
+  .quality-grid,
+  .process-steps {
+    margin-inline: -10px;
+    padding-inline: 10px;
+    scroll-padding-inline: 10px;
+  }
 
   /* Phones: the bar stays at the top of the page and scrolls away with it */
   .site-header {

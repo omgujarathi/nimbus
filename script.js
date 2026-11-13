@@ -53,3 +53,40 @@ if (header && navToggle) {
     if (event.key === "Escape") setMenu(false);
   });
 }
+
+// Sideways card rows on phones and tablets (Why Nimbus, Quality, Manufacturing steps).
+// Each ".swipe-hint" sits right after its row: light up the dot for the card in view
+// and hide the "Swipe" cue once the last card is reached.
+document.querySelectorAll(".swipe-hint").forEach((swipeHint) => {
+  const swipeRow = swipeHint.previousElementSibling;
+  if (!swipeRow) return;
+
+  const swipeCards = Array.from(swipeRow.querySelectorAll("article"));
+  const swipeDots = Array.from(swipeHint.querySelectorAll(".swipe-dots i"));
+
+  function updateSwipeHint() {
+    const room = swipeRow.scrollWidth - swipeRow.clientWidth;
+
+    // Every card already fits (desktop): no cue needed
+    swipeHint.classList.toggle("is-static", room <= 4);
+
+    const atEnd = room > 4 && swipeRow.scrollLeft >= room - 4;
+    const rowLeft = swipeRow.getBoundingClientRect().left;
+
+    // The card resting closest to the left edge of the row counts as "in view"
+    let current = 0;
+    let closest = Infinity;
+    swipeCards.forEach((card, index) => {
+      const distance = Math.abs(card.getBoundingClientRect().left - rowLeft);
+      if (distance < closest) { closest = distance; current = index; }
+    });
+    if (atEnd) current = swipeCards.length - 1;
+
+    swipeDots.forEach((dot, index) => dot.classList.toggle("is-active", index === current));
+    swipeHint.classList.toggle("is-end", atEnd);
+  }
+
+  swipeRow.addEventListener("scroll", () => requestAnimationFrame(updateSwipeHint), { passive: true });
+  window.addEventListener("resize", updateSwipeHint);
+  updateSwipeHint();
+});
