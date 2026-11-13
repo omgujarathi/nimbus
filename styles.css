@@ -601,7 +601,7 @@ main section[id] { scroll-margin-top: 84px; }
   align-items: center;
   justify-content: space-between;
   gap: 14px 20px;
-  margin-top: 24px;
+  margin-top: 42px;
   padding: 18px 26px;
   border: 1px solid var(--line);
   border-radius: 24px;
@@ -639,7 +639,7 @@ main section[id] { scroll-margin-top: 84px; }
   justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap;
-  margin-top: 42px;
+  margin-top: 28px;
   padding: 22px 0 6px;
   border-top: 1px solid var(--line);
   color: var(--muted);
