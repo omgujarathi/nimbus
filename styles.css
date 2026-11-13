@@ -153,8 +153,15 @@ main section[id] { scroll-margin-top: 84px; }
 .primary-btn,
 .secondary-btn { transition: transform 180ms ease; }
 
+.call-group {
+  display: flex;
+  gap: 8px;
+}
+
 .call-chip {
   padding: 12px 16px;
+  text-align: center;
+  white-space: nowrap;
   border-radius: 999px;
   background: linear-gradient(135deg, #1f8ef1, #56d8ff);
   color: #04111d;
@@ -192,8 +199,10 @@ main section[id] { scroll-margin-top: 84px; }
 }
 
 .hero h1 {
-  max-width: 10ch;
-  font-size: clamp(3rem, 7vw, 6rem);
+  max-width: 9.5em;
+  font-size: clamp(2.6rem, 4.6vw, 4rem);
+  line-height: 1.08;
+  text-wrap: balance;
 }
 
 .hero-lead {
@@ -537,6 +546,16 @@ main section[id] { scroll-margin-top: 84px; }
     var(--panel-strong);
 }
 
+.contact-numbers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  margin: 2px 0 12px;
+}
+
+.contact-numbers .contact-number { margin: 0; }
+
 .contact-number {
   display: inline-block;
   margin: 2px 0 12px;
@@ -554,6 +573,14 @@ main section[id] { scroll-margin-top: 84px; }
   padding: 22px 0 6px;
   border-top: 1px solid var(--line);
   color: var(--muted);
+}
+
+/* Narrow laptops: tighten the header so two phone numbers still fit on one row */
+@media (max-width: 1240px) {
+  .site-header { gap: 14px; }
+  .site-nav { gap: 12px; }
+  .call-chip { padding: 12px 12px; }
+  .lang-btn { padding: 8px 10px; }
 }
 
 @media (max-width: 1120px) {
@@ -597,10 +624,14 @@ main section[id] { scroll-margin-top: 84px; }
   }
 
   .header-actions {
-    justify-content: space-between;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
     margin-top: 16px;
   }
+
+  .lang-switch { align-self: flex-start; }
+  .call-group .call-chip { flex: 1; }
 
   .hero,
   .about-grid,
@@ -625,16 +656,20 @@ main section[id] { scroll-margin-top: 84px; }
 @media (max-width: 760px) {
   .page-shell { width: min(100% - 20px, 1200px); }
 
+  /* Phones: the bar stays at the top of the page and scrolls away with it */
   .site-header {
-    top: 8px;
+    position: relative;
+    top: 0;
     padding: 8px 12px;
     border-radius: 18px;
   }
 
+  main section[id] { scroll-margin-top: 12px; }
+
   .brand strong { font-size: 1.1rem; }
   .brand span:last-child { font-size: 0.76rem; }
 
-  .hero h1 { font-size: clamp(2.4rem, 12vw, 4rem); }
+  .hero h1 { font-size: clamp(2rem, 9.5vw, 2.9rem); }
   .section-head h2 { font-size: clamp(1.8rem, 9vw, 2.6rem); }
   .hero-points { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: 1fr; }
