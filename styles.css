@@ -645,6 +645,31 @@ main section[id] { scroll-margin-top: 84px; }
   color: var(--muted);
 }
 
+/* Wide screens: the top section is a 2 x 2 grid.
+   Row 1: headline block beside the bottle photo. Row 2: the four info cards beside the Brand Promise card,
+   sharing the same top and bottom edges. */
+@media (min-width: 1121px) {
+  @supports (grid-template-rows: subgrid) {
+    .hero {
+      grid-template-rows: auto auto;
+      gap: 18px 28px;
+      align-items: stretch;
+      min-height: 0;
+    }
+
+    .hero-copy,
+    .hero-visual {
+      display: grid;
+      grid-row: span 2;
+      grid-template-rows: subgrid;
+      gap: 18px;
+    }
+
+    .hero-text { align-self: center; }
+    .hero-points { margin-top: 0; }
+  }
+}
+
 @media (max-width: 1120px) {
   /* Compact bar: logo + three-line menu button. Links, language and phone open in a panel below. */
   .site-header {
