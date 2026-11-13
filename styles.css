@@ -690,6 +690,19 @@ main section[id] { scroll-margin-top: 84px; }
 @media (min-width: 1121px) {
   .header-actions .lang-switch { display: none; }
 
+  /* Hero intro paragraph: centred in the space between the headline and the four fact cards.
+     The top padding equals the gap above the cards, so the space above and below it is the same. */
+  .hero-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-lead {
+    margin: auto 0;
+    padding-top: 28px;
+  }
+
   .lang-float {
     display: inline-flex;
     position: fixed;
