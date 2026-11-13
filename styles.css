@@ -407,16 +407,11 @@ main section[id] { scroll-margin-top: 84px; }
   margin-top: 26px;
 }
 
-.about-grid { grid-template-columns: 1.3fr 0.9fr; }
+/* About: plain intro text on top (no box), then the Company Details panel across the full width */
+.about-grid { grid-template-columns: 1fr; }
 
-.about-copy {
-  padding: 30px;
-  border-radius: 28px;
-  background:
-    linear-gradient(180deg, rgba(98, 216, 255, 0.08), transparent),
-    rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--line);
-}
+.about-copy { max-width: 760px; }
+.about-copy p { font-size: 1.05rem; }
 
 .about-copy p,
 .product-card p,
@@ -448,7 +443,13 @@ main section[id] { scroll-margin-top: 84px; }
   font-size: 1.18rem;
 }
 
+/* Company details: three columns on desktop, two on tablets, one on phones.
+   Every item has a line above it; the list hides the line above its first row. */
 .info-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 32px;
+  overflow: hidden;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -456,12 +457,14 @@ main section[id] { scroll-margin-top: 84px; }
 
 .info-list li {
   display: grid;
+  align-content: start;
   gap: 6px;
+  margin-top: -1px;
   padding: 14px 0;
-  border-bottom: 1px solid rgba(149, 212, 255, 0.12);
+  border-top: 1px solid rgba(149, 212, 255, 0.12);
+  overflow-wrap: anywhere;
 }
 
-.info-list li:last-child { border-bottom: 0; }
 .info-list span { color: var(--muted); font-size: 0.88rem; }
 
 .product-layout {
@@ -527,33 +530,24 @@ main section[id] { scroll-margin-top: 84px; }
   0%, 100% { transform: translateX(0); }
   50% { transform: translateX(6px); }
 }
-.quality-grid { grid-template-columns: 0.95fr 1.05fr; }
+
+/* Quality: four equal boxes in a 2 x 2 grid (the intro text plus the three points) */
+.quality-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
 
 .quality-copy {
-  padding: 30px;
-  border-radius: 28px;
+  padding: 22px;
+  border-radius: 24px;
   border: 1px solid var(--line);
   background:
     linear-gradient(160deg, rgba(255, 224, 138, 0.08), transparent 36%),
     rgba(255, 255, 255, 0.03);
 }
 
-.quality-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 24px;
-}
-
-.quality-tags span {
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(149, 212, 255, 0.16);
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.quality-points { display: grid; gap: 16px; }
+/* The wrapper around the three point cards is dissolved so all four boxes share one grid */
+.quality-points { display: contents; }
 
 .quality-points article {
   padding: 22px;
@@ -780,8 +774,9 @@ main section[id] { scroll-margin-top: 84px; }
   .contact-social .social-badge { width: 48px; height: 48px; }
   .contact-social .social-badge img { width: 38px; height: 38px; }
 
+  .info-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
   .hero,
-  .about-grid,
   .product-layout,
   .manufacturing-grid,
   .contact-grid { grid-template-columns: 1fr; }
@@ -807,9 +802,6 @@ main section[id] { scroll-margin-top: 84px; }
   .quality-grid::-webkit-scrollbar,
   .process-steps::-webkit-scrollbar { display: none; }
 
-  /* The wrapper around the three smaller Quality cards is dissolved so all four sit in the same row */
-  .quality-points { display: contents; }
-
   .comparison-card,
   .quality-copy,
   .quality-points article,
@@ -820,10 +812,6 @@ main section[id] { scroll-margin-top: 84px; }
 
   .comparison-card,
   .quality-points article { box-shadow: 0 12px 24px rgba(2, 10, 18, 0.3); }
-
-  /* First Quality card: same padding as the others, and the four tag boxes are left out here */
-  .quality-copy { padding: 22px; }
-  .quality-tags { display: none; }
 
   .swipe-hint {
     display: flex;
@@ -903,6 +891,9 @@ main section[id] { scroll-margin-top: 84px; }
 
 @media (max-width: 760px) {
   .page-shell { width: min(100% - 20px, 1200px); }
+
+  .info-list { grid-template-columns: 1fr; }
+  .about-copy p { font-size: 1rem; }
 
   /* Sideways card rows reach both screen edges (the page margin is 10px on phones) */
   .comparison-grid,
