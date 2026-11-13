@@ -551,12 +551,42 @@ main section[id] { scroll-margin-top: 84px; }
 
 .contact-numbers .contact-number { margin: 0; }
 
+/* A number with its WhatsApp link beside it; the link drops below if the card is narrow */
+.contact-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+}
+
+.whatsapp-link {
+  padding: 4px 10px;
+  border: 1px solid rgba(123, 208, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.86rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.whatsapp-link:hover,
+.whatsapp-link:focus-visible { border-color: var(--bright); }
+
 .contact-number {
   display: inline-block;
   margin: 2px 0 12px;
   font-size: 1.9rem;
   font-weight: 800;
   color: var(--bright);
+}
+
+.contact-email {
+  display: inline-block;
+  margin: 2px 0 12px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--bright);
+  overflow-wrap: anywhere;
 }
 
 .site-footer {
