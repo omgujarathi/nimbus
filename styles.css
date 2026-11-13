@@ -552,9 +552,10 @@ main section[id] { scroll-margin-top: 84px; }
   border-radius: 24px;
 }
 
+/* The factory photo stretches to the full height of the step cards beside it */
 .manufacturing-grid {
   grid-template-columns: 1.02fr 0.98fr;
-  align-items: start;
+  align-items: stretch;
 }
 
 .process-steps { display: grid; gap: 16px; }
