@@ -90,3 +90,110 @@ document.querySelectorAll(".swipe-hint").forEach((swipeHint) => {
   window.addEventListener("resize", updateSwipeHint);
   updateSwipeHint();
 });
+
+// Photo slideshows (hero, Products, Manufacturing).
+// Each [data-slideshow] box holds stacked photos; this adds the dots and arrows,
+// changes the photo every few seconds, and lets phone users swipe left and right.
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+document.querySelectorAll("[data-slideshow]").forEach((box) => {
+  const slides = Array.from(box.querySelectorAll(".slide"));
+  if (slides.length < 2) return;
+
+  let current = 0;
+  let timer = null;
+  let hovering = false;
+  let onScreen = !("IntersectionObserver" in window);
+
+  // Later photos carry data-src instead of src, so they are downloaded only when about to be needed
+  function load(index) {
+    const img = slides[(index + slides.length) % slides.length];
+    if (img.dataset.src) {
+      img.src = img.dataset.src;
+      delete img.dataset.src;
+    }
+    return img;
+  }
+
+  const dots = document.createElement("div");
+  dots.className = "slide-dots";
+  const dotButtons = slides.map((slide, index) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.setAttribute("aria-label", "Photo " + (index + 1) + " of " + slides.length);
+    dot.addEventListener("click", () => { show(index); restart(); });
+    dots.appendChild(dot);
+    return dot;
+  });
+
+  function arrow(className, label, symbol, step) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "slide-arrow " + className;
+    button.setAttribute("aria-label", label);
+    button.textContent = symbol;
+    button.addEventListener("click", () => { show(current + step); restart(); });
+    return button;
+  }
+
+  box.append(arrow("prev", "Previous photo", "\u2039", -1), arrow("next", "Next photo", "\u203A", 1), dots);
+
+  function show(index) {
+    current = (index + slides.length) % slides.length;
+    load(current);
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("is-active", i === current);
+      slide.setAttribute("aria-hidden", String(i !== current));
+    });
+    dotButtons.forEach((dot, i) => dot.classList.toggle("is-active", i === current));
+    if (onScreen) load(current + 1); // fetch the following photo in the background
+  }
+
+  // Automatic change: only while the photo is on screen, the tab is visible and the mouse is not on it.
+  // If the next photo has not finished downloading yet, wait for the next turn instead of showing a blank.
+  function tick() {
+    const next = load(current + 1);
+    if (next.complete && next.naturalWidth > 0) show(current + 1);
+  }
+
+  function stop() { clearInterval(timer); timer = null; }
+  function start() {
+    stop();
+    if (reducedMotion || hovering || !onScreen || document.hidden) return;
+    timer = setInterval(tick, 5000);
+  }
+  function restart() { start(); }
+
+  box.addEventListener("mouseenter", () => { hovering = true; stop(); });
+  box.addEventListener("mouseleave", () => { hovering = false; start(); });
+  document.addEventListener("visibilitychange", start);
+
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver((entries) => {
+      onScreen = entries[0].isIntersecting;
+      if (onScreen) load(current + 1);
+      start();
+    }, { threshold: 0.4 }).observe(box);
+  }
+
+  // Swipe left / right on touch screens
+  let touchX = null;
+  let touchY = null;
+  box.addEventListener("touchstart", (event) => {
+    touchX = event.touches[0].clientX;
+    touchY = event.touches[0].clientY;
+  }, { passive: true });
+  box.addEventListener("touchend", (event) => {
+    if (touchX === null) return;
+    const dx = event.changedTouches[0].clientX - touchX;
+    const dy = event.changedTouches[0].clientY - touchY;
+    touchX = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      show(current + (dx < 0 ? 1 : -1));
+      restart();
+    }
+  }, { passive: true });
+
+  show(0);
+  start();
+});
