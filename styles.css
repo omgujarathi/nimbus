@@ -416,7 +416,6 @@ main section[id] { scroll-margin-top: 84px; }
 .about-copy p,
 .product-card p,
 .comparison-card p,
-.quality-copy p,
 .quality-points p,
 .process-steps p,
 .contact-card p {
@@ -425,8 +424,7 @@ main section[id] { scroll-margin-top: 84px; }
   line-height: 1.85;
 }
 
-.about-copy p + p,
-.quality-copy p + p { margin-top: 18px; }
+.about-copy p + p { margin-top: 6px; }
 
 .info-panel {
   padding: 26px;
@@ -531,22 +529,13 @@ main section[id] { scroll-margin-top: 84px; }
   50% { transform: translateX(6px); }
 }
 
-/* Quality: four equal boxes in a 2 x 2 grid (the intro text plus the three points) */
+/* Quality: three equal boxes in one row */
 .quality-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
 
-.quality-copy {
-  padding: 22px;
-  border-radius: 24px;
-  border: 1px solid var(--line);
-  background:
-    linear-gradient(160deg, rgba(255, 224, 138, 0.08), transparent 36%),
-    rgba(255, 255, 255, 0.03);
-}
-
-/* The wrapper around the three point cards is dissolved so all four boxes share one grid */
+/* The wrapper around the three cards is dissolved so they sit directly in the grid */
 .quality-points { display: contents; }
 
 .quality-points article {
@@ -781,7 +770,7 @@ main section[id] { scroll-margin-top: 84px; }
   .manufacturing-grid,
   .contact-grid { grid-template-columns: 1fr; }
 
-  /* Why Nimbus cards, the four Quality cards and the three Manufacturing steps:
+  /* Why Nimbus cards, the three Quality cards and the three Manufacturing steps:
      one row that scrolls sideways and stops on each card.
      The next card peeks in from the right edge, and the dots + arrow underneath show there is more. */
   .comparison-grid,
@@ -803,7 +792,6 @@ main section[id] { scroll-margin-top: 84px; }
   .process-steps::-webkit-scrollbar { display: none; }
 
   .comparison-card,
-  .quality-copy,
   .quality-points article,
   .process-steps article {
     flex: 0 0 min(80%, 360px);
@@ -861,12 +849,11 @@ main section[id] { scroll-margin-top: 84px; }
 
   .hero { padding-top: 18px; gap: 18px; }
 
-  /* Single column, in this order: small top line, bottle photo, headline, intro, facts.
-     The two wrappers are dissolved so the top line can sit above the photo. */
+  /* Single column, in this order: bottle photo, headline, intro, facts.
+     The two wrappers are dissolved so each piece is spaced evenly by the hero grid. */
   .hero-copy,
   .hero-text { display: contents; }
 
-  .hero .eyebrow { order: -2; margin: 0; }
   .hero-visual { order: -1; }
   .hero-lead { margin-top: 0; }
 
@@ -920,7 +907,7 @@ main section[id] { scroll-margin-top: 84px; }
   .site-header { gap: 8px; }
   .contact-chip-bar { padding: 9px 14px; font-size: 0.9rem; }
 
-  /* Phone hero: top line, photo, short headline, then a compact 2 x 2 fact grid */
+  /* Phone hero: photo, short headline, then a compact 2 x 2 fact grid */
   .hero { gap: 14px; padding: 14px 0 16px; }
 
   .hero-card { border-radius: 24px; }
@@ -933,11 +920,6 @@ main section[id] { scroll-margin-top: 84px; }
     height: calc(100% - 16px);
     border-radius: 17px;
     object-position: center 75%;
-  }
-
-  .hero .eyebrow {
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
   }
 
   .hero h1 { gap: 10px; font-size: clamp(1.45rem, 6.4vw, 1.9rem); }
